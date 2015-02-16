@@ -2,9 +2,9 @@
 #ifndef COPYFS_LIB_COPYNODE_H_
 #define COPYFS_LIB_COPYNODE_H_
 
-#include <copyfs/CopyDevice.h>
-#include <fspp/fs_interface/Node.h>
-#include "fspp/utils/macros.h"
+#include "CopyDevice.h"
+#include <messmer/fspp/fs_interface/Node.h>
+#include "messmer/cpp-utils/macros.h"
 
 
 namespace copyfs {

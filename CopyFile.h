@@ -2,8 +2,8 @@
 #ifndef COPYFS_LIB_COPYFILE_H_
 #define COPYFS_LIB_COPYFILE_H_
 
-#include <copyfs/CopyNode.h>
-#include <fspp/fs_interface/File.h>
+#include "CopyNode.h"
+#include <messmer/fspp/fs_interface/File.h>
 
 namespace copyfs {
 

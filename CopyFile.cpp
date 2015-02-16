@@ -1,7 +1,7 @@
-#include <copyfs/CopyFile.h>
-#include <copyfs/CopyOpenFile.h>
+#include "CopyFile.h"
+#include "CopyOpenFile.h"
 #include "CopyDevice.h"
-#include "fspp/fuse/FuseErrnoException.h"
+#include "messmer/fspp/fuse/FuseErrnoException.h"
 
 namespace bf = boost::filesystem;
 

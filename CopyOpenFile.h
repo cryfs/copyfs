@@ -2,8 +2,8 @@
 #ifndef COPYFS_LIB_COPYOPENFILE_H_
 #define COPYFS_LIB_COPYOPENFILE_H_
 
-#include "fspp/fs_interface/OpenFile.h"
-#include "fspp/utils/macros.h"
+#include "messmer/fspp/fs_interface/OpenFile.h"
+#include "messmer/cpp-utils/macros.h"
 
 namespace copyfs {
 class CopyDevice;

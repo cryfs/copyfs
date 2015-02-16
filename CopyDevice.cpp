@@ -1,7 +1,7 @@
-#include <copyfs/CopyDevice.h>
-#include <copyfs/CopyDir.h>
-#include <copyfs/CopyFile.h>
-#include "fspp/fuse/FuseErrnoException.h"
+#include "CopyDevice.h"
+#include "CopyDir.h"
+#include "CopyFile.h"
+#include "messmer/fspp/fuse/FuseErrnoException.h"
 
 using std::unique_ptr;
 

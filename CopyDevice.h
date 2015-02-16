@@ -3,9 +3,9 @@
 #define COPYFS_LIB_COPYDEVICE_H_
 
 #include <boost/filesystem.hpp>
-#include <fspp/fs_interface/Device.h>
+#include <messmer/fspp/fs_interface/Device.h>
 
-#include "fspp/utils/macros.h"
+#include "messmer/cpp-utils/macros.h"
 
 namespace copyfs {
 

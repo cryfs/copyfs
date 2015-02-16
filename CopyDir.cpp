@@ -1,11 +1,11 @@
-#include <copyfs/CopyDir.h>
-#include <copyfs/CopyFile.h>
+#include "CopyDir.h"
+#include "CopyFile.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <dirent.h>
 
-#include "fspp/fuse/FuseErrnoException.h"
+#include "messmer/fspp/fuse/FuseErrnoException.h"
 #include "CopyDevice.h"
 
 //TODO Get rid of this in favor of exception hierarchy
