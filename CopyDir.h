@@ -4,6 +4,7 @@
 
 #include "CopyNode.h"
 #include <messmer/fspp/fs_interface/Dir.h>
+#include <messmer/fspp/fs_interface/File.h>
 
 namespace copyfs {
 
@@ -13,11 +14,11 @@ public:
   virtual ~CopyDir();
 
   //TODO return type variance to CopyFile/CopyDir?
-  std::unique_ptr<fspp::File> createFile(const std::string &name, mode_t mode) override;
-  std::unique_ptr<fspp::Dir> createDir(const std::string &name, mode_t mode) override;
+  std::unique_ptr<fspp::OpenFile> createAndOpenFile(const std::string &name, mode_t mode) override;
+  void createDir(const std::string &name, mode_t mode) override;
   void rmdir() override;
 
-  std::unique_ptr<std::vector<std::string>> children() const override;
+  std::unique_ptr<std::vector<Entry>> children() const override;
 
 private:
   DISALLOW_COPY_AND_ASSIGN(CopyDir);

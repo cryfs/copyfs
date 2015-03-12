@@ -7,6 +7,7 @@
 
 #include "messmer/fspp/fuse/FuseErrnoException.h"
 #include "CopyDevice.h"
+#include "CopyOpenFile.h"
 
 //TODO Get rid of this in favor of exception hierarchy
 using fspp::fuse::CHECK_RETVAL;
@@ -28,21 +29,21 @@ CopyDir::CopyDir(CopyDevice *device, const bf::path &path)
 CopyDir::~CopyDir() {
 }
 
-unique_ptr<fspp::File> CopyDir::createFile(const string &name, mode_t mode) {
+unique_ptr<fspp::OpenFile> CopyDir::createAndOpenFile(const string &name, mode_t mode) {
   auto file_path = base_path() / name;
   //Create file
   int fd = ::creat(file_path.c_str(), mode);
   CHECK_RETVAL(fd);
+  //TODO Don't close and reopen, that's inperformant
   ::close(fd);
-  return make_unique<CopyFile>(device(), path() / name);
+  return make_unique<CopyOpenFile>(device(), path() / name, O_RDWR | O_TRUNC);
 }
 
-unique_ptr<fspp::Dir> CopyDir::createDir(const string &name, mode_t mode) {
+void CopyDir::createDir(const string &name, mode_t mode) {
   auto dir_path = base_path() / name;
   //Create dir
   int retval = ::mkdir(dir_path.c_str(), mode);
   CHECK_RETVAL(retval);
-  return make_unique<CopyDir>(device(), path() / name);
 }
 
 void CopyDir::rmdir() {
@@ -50,7 +51,7 @@ void CopyDir::rmdir() {
   CHECK_RETVAL(retval);
 }
 
-unique_ptr<vector<string>> CopyDir::children() const {
+unique_ptr<vector<CopyDir::Entry>> CopyDir::children() const {
   DIR *dir = ::opendir(base_path().c_str());
   if (dir == nullptr) {
     throw fspp::fuse::FuseErrnoException(errno);
@@ -59,11 +60,24 @@ unique_ptr<vector<string>> CopyDir::children() const {
   // Set errno=0 so we can detect whether it changed later
   errno = 0;
 
-  auto result = make_unique<vector<string>>();
+  auto result = make_unique<vector<Entry>>();
 
   struct dirent *entry = ::readdir(dir);
   while(entry != nullptr) {
-    result->push_back(entry->d_name);
+  EntryType type;
+#ifdef _DIRENT_HAVE_D_TYPE
+  if(entry->d_type == DT_DIR) {
+    result->push_back(Entry(EntryType::DIR, entry->d_name));
+  } else if(entry->d_type == DT_REG) {
+    result->push_back(Entry(EntryType::FILE, entry->d_name));
+  } // else: Ignore files we can't handle (e.g. block device, pipe, ...)
+#else
+  if(bf::is_regular_file(entry->d_name)) {
+    result->push_back(Entry(EntryType::FILE, entry->d_name));
+  } else if(bf::is_directory(entry->d_name)) {
+    result->push_back(Entry(EntryType::DIR, entry->d_name));
+  } // else: Ignore files we can't handle (e.g. block device, pipe, ...)
+#endif
     entry = ::readdir(dir);
   }
   //On error, ::readdir returns nullptr and sets errno.
