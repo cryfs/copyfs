@@ -64,19 +64,18 @@ unique_ptr<vector<CopyDir::Entry>> CopyDir::children() const {
 
   struct dirent *entry = ::readdir(dir);
   while(entry != nullptr) {
-  EntryType type;
 #ifdef _DIRENT_HAVE_D_TYPE
-  if(entry->d_type == DT_DIR) {
-    result->push_back(Entry(EntryType::DIR, entry->d_name));
-  } else if(entry->d_type == DT_REG) {
-    result->push_back(Entry(EntryType::FILE, entry->d_name));
-  } // else: Ignore files we can't handle (e.g. block device, pipe, ...)
+    if(entry->d_type == DT_DIR) {
+      result->push_back(Entry(EntryType::DIR, entry->d_name));
+    } else if(entry->d_type == DT_REG) {
+      result->push_back(Entry(EntryType::FILE, entry->d_name));
+    } // else: Ignore files we can't handle (e.g. block device, pipe, ...)
 #else
-  if(bf::is_regular_file(entry->d_name)) {
-    result->push_back(Entry(EntryType::FILE, entry->d_name));
-  } else if(bf::is_directory(entry->d_name)) {
-    result->push_back(Entry(EntryType::DIR, entry->d_name));
-  } // else: Ignore files we can't handle (e.g. block device, pipe, ...)
+    if(bf::is_regular_file(entry->d_name)) {
+      result->push_back(Entry(EntryType::FILE, entry->d_name));
+    } else if(bf::is_directory(entry->d_name)) {
+      result->push_back(Entry(EntryType::DIR, entry->d_name));
+    } // else: Ignore files we can't handle (e.g. block device, pipe, ...)
 #endif
     entry = ::readdir(dir);
   }
