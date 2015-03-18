@@ -35,7 +35,7 @@ void CopyOpenFile::truncate(off_t size) const {
   CHECK_RETVAL(retval);
 }
 
-ssize_t CopyOpenFile::read(void *buf, size_t count, off_t offset) {
+ssize_t CopyOpenFile::read(void *buf, size_t count, off_t offset) const {
   //printf("Reading from real descriptor %d (%d, %d)\n", _descriptor, offset, count);
   //fflush(stdout);
   int retval = ::pread(_descriptor, buf, count, offset);
