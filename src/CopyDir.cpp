@@ -31,6 +31,9 @@ CopyDir::~CopyDir() {
 
 unique_ptr<fspp::OpenFile> CopyDir::createAndOpenFile(const string &name, mode_t mode) {
   auto file_path = base_path() / name;
+  if (bf::exists(file_path)) {
+	throw fspp::fuse::FuseErrnoException(EEXIST);
+  }
   //Create file
   int fd = ::creat(file_path.c_str(), mode);
   CHECK_RETVAL(fd);
