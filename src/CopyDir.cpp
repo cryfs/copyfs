@@ -49,7 +49,7 @@ void CopyDir::createDir(const string &name, mode_t mode) {
   CHECK_RETVAL(retval);
 }
 
-void CopyDir::rmdir() {
+void CopyDir::remove() {
   int retval = ::rmdir(base_path().c_str());
   CHECK_RETVAL(retval);
 }

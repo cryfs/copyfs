@@ -30,7 +30,7 @@ void CopyFile::truncate(off_t size) const {
   CHECK_RETVAL(retval);
 }
 
-void CopyFile::unlink() {
+void CopyFile::remove() {
   int retval = ::unlink(base_path().c_str());
   CHECK_RETVAL(retval);
 }

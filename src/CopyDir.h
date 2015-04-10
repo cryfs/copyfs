@@ -16,7 +16,7 @@ public:
   //TODO return type variance to CopyFile/CopyDir?
   std::unique_ptr<fspp::OpenFile> createAndOpenFile(const std::string &name, mode_t mode) override;
   void createDir(const std::string &name, mode_t mode) override;
-  void rmdir() override;
+  void remove() override;
 
   std::unique_ptr<std::vector<Entry>> children() const override;
 

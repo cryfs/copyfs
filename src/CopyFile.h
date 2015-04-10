@@ -14,7 +14,7 @@ public:
 
   std::unique_ptr<fspp::OpenFile> open(int flags) const override;
   void truncate(off_t size) const override;
-  void unlink() override;
+  void remove() override;
 
 private:
   DISALLOW_COPY_AND_ASSIGN(CopyFile);
