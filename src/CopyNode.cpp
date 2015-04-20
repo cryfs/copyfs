@@ -23,6 +23,16 @@ void CopyNode::stat(struct ::stat *result) const {
   CHECK_RETVAL(retval);
 }
 
+void CopyNode::chmod(mode_t mode) {
+  int retval = ::chmod(base_path().c_str(), mode);
+  CHECK_RETVAL(retval);
+}
+
+void CopyNode::chown(uid_t uid, gid_t gid) {
+  int retval = ::chown(base_path().c_str(), uid, gid);
+  CHECK_RETVAL(retval);
+}
+
 void CopyNode::access(int mask) const {
   int retval = ::access(base_path().c_str(), mask);
   CHECK_RETVAL(retval);
