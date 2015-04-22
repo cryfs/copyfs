@@ -1,6 +1,7 @@
 #include "CopyDevice.h"
 #include "CopyDir.h"
 #include "CopyFile.h"
+#include "CopySymlink.h"
 #include "messmer/fspp/fuse/FuseErrnoException.h"
 
 using std::unique_ptr;
@@ -21,7 +22,9 @@ CopyDevice::~CopyDevice() {
 
 unique_ptr<fspp::Node> CopyDevice::Load(const bf::path &path) {
   auto real_path = RootDir() / path;
-  if(bf::is_directory(real_path)) {
+  if(bf::is_symlink(real_path)) { //We have to check for symlink first, because bf::is_directory/bf::is_regular_file return true if the symlink is pointing to a respective entry
+    return make_unique<CopySymlink>(this, path);
+  }else if(bf::is_directory(real_path)) {
     return make_unique<CopyDir>(this, path);
   } else if(bf::is_regular_file(real_path)) {
     return make_unique<CopyFile>(this, path);

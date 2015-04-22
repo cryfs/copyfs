@@ -29,7 +29,8 @@ CopyDir::CopyDir(CopyDevice *device, const bf::path &path)
 CopyDir::~CopyDir() {
 }
 
-unique_ptr<fspp::OpenFile> CopyDir::createAndOpenFile(const string &name, mode_t mode) {
+unique_ptr<fspp::OpenFile> CopyDir::createAndOpenFile(const string &name, mode_t mode, uid_t uid, gid_t gid) {
+  //TODO uid/gid?
   auto file_path = base_path() / name;
   if (bf::exists(file_path)) {
 	throw fspp::fuse::FuseErrnoException(EEXIST);
@@ -42,7 +43,8 @@ unique_ptr<fspp::OpenFile> CopyDir::createAndOpenFile(const string &name, mode_t
   return make_unique<CopyOpenFile>(device(), path() / name, O_RDWR | O_TRUNC);
 }
 
-void CopyDir::createDir(const string &name, mode_t mode) {
+void CopyDir::createDir(const string &name, mode_t mode, uid_t uid, gid_t gid) {
+  //TODO uid/gid?
   auto dir_path = base_path() / name;
   //Create dir
   int retval = ::mkdir(dir_path.c_str(), mode);
@@ -72,9 +74,13 @@ unique_ptr<vector<CopyDir::Entry>> CopyDir::children() const {
       result->push_back(Entry(EntryType::DIR, entry->d_name));
     } else if(entry->d_type == DT_REG) {
       result->push_back(Entry(EntryType::FILE, entry->d_name));
-    } // else: Ignore files we can't handle (e.g. block device, pipe, ...)
+    } else if (entry->d_type == DT_LNK) {
+      result->push_back(Entry(EntryType::SYMLINK, entry->d_name));
+    }  // else: Ignore files we can't handle (e.g. block device, pipe, ...)
 #else
-    if(bf::is_regular_file(entry->d_name)) {
+    if(bf::is_symlink(entry->d_name)) { //We have to check for symlink first, because bf::is_directory/bf::is_regular_file return true if the symlink is pointing to a respective entry
+     result->push_back(Entry(EntryType::SYMLINK, entry->d_name));
+    } else if(bf::is_regular_file(entry->d_name)) {
       result->push_back(Entry(EntryType::FILE, entry->d_name));
     } else if(bf::is_directory(entry->d_name)) {
       result->push_back(Entry(EntryType::DIR, entry->d_name));
@@ -93,4 +99,11 @@ unique_ptr<vector<CopyDir::Entry>> CopyDir::children() const {
   return result;
 }
 
+void CopyDir::createSymlink(const std::string &name, const boost::filesystem::path &target) {
+  auto from_path = base_path() / name;
+  int retval = ::symlink(target.c_str(), from_path.c_str());
+  CHECK_RETVAL(retval);
 }
+
+}
+
