@@ -12,7 +12,7 @@ public:
   CopySymlink(CopyDevice *device, const bf::path &path);
   virtual ~CopySymlink();
 
-  boost::filesystem::path target() override;
+  boost::filesystem::path target() const override;
   void remove() override;
 
 private:

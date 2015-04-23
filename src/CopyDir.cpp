@@ -99,7 +99,8 @@ unique_ptr<vector<CopyDir::Entry>> CopyDir::children() const {
   return result;
 }
 
-void CopyDir::createSymlink(const std::string &name, const boost::filesystem::path &target) {
+void CopyDir::createSymlink(const std::string &name, const boost::filesystem::path &target, uid_t uid, gid_t gid) {
+  //TODO uid/gid?
   auto from_path = base_path() / name;
   int retval = ::symlink(target.c_str(), from_path.c_str());
   CHECK_RETVAL(retval);

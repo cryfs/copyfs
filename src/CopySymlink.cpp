@@ -27,7 +27,7 @@ CopySymlink::CopySymlink(CopyDevice *device, const bf::path &path)
 CopySymlink::~CopySymlink() {
 }
 
-bf::path CopySymlink::target() {
+bf::path CopySymlink::target() const {
   int readBytes;
   struct stat st;
   while(true) {
