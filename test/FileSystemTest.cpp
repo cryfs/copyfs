@@ -1,5 +1,5 @@
 #include <messmer/fspp/fstest/FsTest.h>
-#include <messmer/tempfile/src/TempDir.h>
+#include <messmer/cpp-utils/tempfile/TempDir.h>
 
 #include "../src/CopyDevice.h"
 
@@ -16,7 +16,7 @@ public:
     return make_unique<CopyDevice>(rootDir.path());
   }
 
-  tempfile::TempDir rootDir;
+  cpputils::TempDir rootDir;
 };
 
 FSPP_ADD_FILESYTEM_TESTS(CopyFS, CopyFsTestFixture);
