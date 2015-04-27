@@ -13,7 +13,7 @@ namespace bf = boost::filesystem;
 
 class CopyDevice: public fspp::Device {
 public:
-  CopyDevice(const bf::path &rootdir);
+  explicit CopyDevice(const bf::path &rootdir);
   virtual ~CopyDevice();
 
   void statfs(const boost::filesystem::path &path, struct ::statvfs *fsstat) override;
