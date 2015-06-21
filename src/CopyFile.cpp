@@ -8,8 +8,8 @@ namespace bf = boost::filesystem;
 //TODO Get rid of this in favor of exception hierarchy
 using fspp::fuse::CHECK_RETVAL;
 
-using std::unique_ptr;
-using std::make_unique;
+using cpputils::unique_ref;
+using cpputils::make_unique_ref;
 
 namespace copyfs {
 
@@ -21,8 +21,8 @@ CopyFile::CopyFile(CopyDevice *device, const bf::path &path)
 CopyFile::~CopyFile() {
 }
 
-unique_ptr<fspp::OpenFile> CopyFile::open(int flags) const {
-  return make_unique<CopyOpenFile>(device(), path(), flags);
+unique_ref<fspp::OpenFile> CopyFile::open(int flags) const {
+  return make_unique_ref<CopyOpenFile>(device(), path(), flags);
 }
 
 void CopyFile::truncate(off_t size) const {

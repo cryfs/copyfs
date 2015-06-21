@@ -14,12 +14,12 @@ public:
   virtual ~CopyDir();
 
   //TODO return type variance to CopyFile/CopyDir?
-  std::unique_ptr<fspp::OpenFile> createAndOpenFile(const std::string &name, mode_t mode, uid_t uid, gid_t gid) override;
+  cpputils::unique_ref<fspp::OpenFile> createAndOpenFile(const std::string &name, mode_t mode, uid_t uid, gid_t gid) override;
   void createDir(const std::string &name, mode_t mode, uid_t uid, gid_t gid) override;
   void createSymlink(const std::string &name, const boost::filesystem::path &target, uid_t uid, gid_t gid) override;
   void remove() override;
 
-  std::unique_ptr<std::vector<Entry>> children() const override;
+  cpputils::unique_ref<std::vector<Entry>> children() const override;
 
 private:
   DISALLOW_COPY_AND_ASSIGN(CopyDir);

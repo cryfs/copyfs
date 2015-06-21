@@ -20,7 +20,7 @@ public:
 
   const bf::path &RootDir() const;
 private:
-  std::unique_ptr<fspp::Node> Load(const bf::path &path) override;
+  boost::optional<cpputils::unique_ref<fspp::Node>> Load(const bf::path &path) override;
 
   const bf::path _root_path;
 

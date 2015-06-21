@@ -14,8 +14,8 @@ using fspp::fuse::CHECK_RETVAL;
 
 namespace bf = boost::filesystem;
 
-using std::unique_ptr;
-using std::make_unique;
+using cpputils::unique_ref;
+using cpputils::make_unique_ref;
 using std::string;
 using std::vector;
 
@@ -29,7 +29,7 @@ CopyDir::CopyDir(CopyDevice *device, const bf::path &path)
 CopyDir::~CopyDir() {
 }
 
-unique_ptr<fspp::OpenFile> CopyDir::createAndOpenFile(const string &name, mode_t mode, uid_t uid, gid_t gid) {
+unique_ref<fspp::OpenFile> CopyDir::createAndOpenFile(const string &name, mode_t mode, uid_t uid, gid_t gid) {
   //TODO uid/gid?
   auto file_path = base_path() / name;
   if (bf::exists(file_path)) {
@@ -40,7 +40,7 @@ unique_ptr<fspp::OpenFile> CopyDir::createAndOpenFile(const string &name, mode_t
   CHECK_RETVAL(fd);
   //TODO Don't close and reopen, that's inperformant
   ::close(fd);
-  return make_unique<CopyOpenFile>(device(), path() / name, O_RDWR | O_TRUNC);
+  return make_unique_ref<CopyOpenFile>(device(), path() / name, O_RDWR | O_TRUNC);
 }
 
 void CopyDir::createDir(const string &name, mode_t mode, uid_t uid, gid_t gid) {
@@ -56,7 +56,7 @@ void CopyDir::remove() {
   CHECK_RETVAL(retval);
 }
 
-unique_ptr<vector<CopyDir::Entry>> CopyDir::children() const {
+unique_ref<vector<CopyDir::Entry>> CopyDir::children() const {
   DIR *dir = ::opendir(base_path().c_str());
   if (dir == nullptr) {
     throw fspp::fuse::FuseErrnoException(errno);
@@ -65,7 +65,7 @@ unique_ptr<vector<CopyDir::Entry>> CopyDir::children() const {
   // Set errno=0 so we can detect whether it changed later
   errno = 0;
 
-  auto result = make_unique<vector<Entry>>();
+  auto result = make_unique_ref<vector<Entry>>();
 
   struct dirent *entry = ::readdir(dir);
   while(entry != nullptr) {
