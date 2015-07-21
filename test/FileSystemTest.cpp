@@ -3,8 +3,8 @@
 
 #include "../src/CopyDevice.h"
 
-using std::unique_ptr;
-using std::make_unique;
+using cpputils::unique_ref;
+using cpputils::make_unique_ref;
 
 using fspp::Device;
 
@@ -12,8 +12,8 @@ using namespace copyfs;
 
 class CopyFsTestFixture: public FileSystemTestFixture {
 public:
-  unique_ptr<Device> createDevice() override {
-    return make_unique<CopyDevice>(rootDir.path());
+  unique_ref<Device> createDevice() override {
+    return make_unique_ref<CopyDevice>(rootDir.path());
   }
 
   cpputils::TempDir rootDir;
