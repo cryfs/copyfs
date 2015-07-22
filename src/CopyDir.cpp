@@ -8,6 +8,7 @@
 #include "messmer/fspp/fuse/FuseErrnoException.h"
 #include "CopyDevice.h"
 #include "CopyOpenFile.h"
+#include <messmer/cpp-utils/assert/assert.h>
 
 //TODO Get rid of this in favor of exception hierarchy
 using fspp::fuse::CHECK_RETVAL;
@@ -23,7 +24,7 @@ namespace copyfs {
 
 CopyDir::CopyDir(CopyDevice *device, const bf::path &path)
   :CopyNode(device, path) {
-  assert(bf::is_directory(base_path()));
+  ASSERT(bf::is_directory(base_path()), "Path isn't a valid directory");
 }
 
 CopyDir::~CopyDir() {

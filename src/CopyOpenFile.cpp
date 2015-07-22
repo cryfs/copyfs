@@ -4,6 +4,7 @@
 #include <fcntl.h>
 
 #include "messmer/fspp/fuse/FuseErrnoException.h"
+#include <messmer/cpp-utils/assert/assert.h>
 
 namespace bf = boost::filesystem;
 
@@ -42,14 +43,14 @@ ssize_t CopyOpenFile::read(void *buf, size_t count, off_t offset) const {
   CHECK_RETVAL(retval);
   //printf("retval: %d, count: %d\n", retval, count);
   //fflush(stdout);
-  assert(static_cast<unsigned int>(retval) <= count);
+  ASSERT(static_cast<unsigned int>(retval) <= count, "Read wrong number of bytes");
   return retval;
 }
 
 void CopyOpenFile::write(const void *buf, size_t count, off_t offset) {
   int retval = ::pwrite(_descriptor, buf, count, offset);
   CHECK_RETVAL(retval);
-  assert(static_cast<unsigned int>(retval) == count);
+  ASSERT(static_cast<unsigned int>(retval) == count, "Wrong number of bytes written");
 }
 
 void CopyOpenFile::fsync() {

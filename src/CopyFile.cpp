@@ -2,6 +2,7 @@
 #include "CopyOpenFile.h"
 #include "CopyDevice.h"
 #include "messmer/fspp/fuse/FuseErrnoException.h"
+#include <messmer/cpp-utils/assert/assert.h>
 
 namespace bf = boost::filesystem;
 
@@ -15,7 +16,7 @@ namespace copyfs {
 
 CopyFile::CopyFile(CopyDevice *device, const bf::path &path)
   :CopyNode(device, path) {
-  assert(bf::is_regular_file(base_path()));
+  ASSERT(bf::is_regular_file(base_path()), "Path isn't a valid file");
 }
 
 CopyFile::~CopyFile() {

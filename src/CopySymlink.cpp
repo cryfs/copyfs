@@ -6,6 +6,7 @@
 
 #include "messmer/fspp/fuse/FuseErrnoException.h"
 #include "CopyDevice.h"
+#include <messmer/cpp-utils/assert/assert.h>
 
 //TODO Get rid of this in favor of exception hierarchy
 using fspp::fuse::CHECK_RETVAL;
@@ -19,7 +20,7 @@ namespace copyfs {
 
 CopySymlink::CopySymlink(CopyDevice *device, const bf::path &path)
   :CopyNode(device, path) {
-  assert(bf::is_symlink(base_path()));
+  ASSERT(bf::is_symlink(base_path()), "Path isn't valid symlink");
 }
 
 CopySymlink::~CopySymlink() {
