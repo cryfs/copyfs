@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COPYFS_LIB_COPYOPENFILE_H_
-#define COPYFS_LIB_COPYOPENFILE_H_
+#ifndef MESSMER_COPYFS_SRC_COPYOPENFILE_H_
+#define MESSMER_COPYFS_SRC_COPYOPENFILE_H_
 
 #include "messmer/fspp/fs_interface/OpenFile.h"
 #include "messmer/cpp-utils/macros.h"

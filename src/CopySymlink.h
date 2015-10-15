@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COPYFS_LIB_COPYSYMLINK_H_
-#define COPYFS_LIB_COPYSYMLINK_H_
+#ifndef MESSMER_COPYFS_SRC_COPYSYMLINK_H_
+#define MESSMER_COPYFS_SRC_COPYSYMLINK_H_
 
 #include "CopyNode.h"
 #include <messmer/fspp/fs_interface/Symlink.h>

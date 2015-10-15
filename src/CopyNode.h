@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COPYFS_LIB_COPYNODE_H_
-#define COPYFS_LIB_COPYNODE_H_
+#ifndef MESSMER_COPYFS_SRC_COPYNODE_H_
+#define MESSMER_COPYFS_SRC_COPYNODE_H_
 
 #include "CopyDevice.h"
 #include <messmer/fspp/fs_interface/Node.h>

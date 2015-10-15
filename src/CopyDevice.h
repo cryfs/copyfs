@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COPYFS_LIB_COPYDEVICE_H_
-#define COPYFS_LIB_COPYDEVICE_H_
+#ifndef MESSMER_COPYFS_SRC_COPYDEVICE_H_
+#define MESSMER_COPYFS_SRC_COPYDEVICE_H_
 
 #include <boost/filesystem.hpp>
 #include <messmer/fspp/fs_interface/Device.h>
