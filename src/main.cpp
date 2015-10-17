@@ -2,6 +2,7 @@
 #include "messmer/fspp/fuse/Fuse.h"
 #include "messmer/fspp/impl/FilesystemImpl.h"
 #include "CopyDevice.h"
+#include <iostream>
 
 using cpputils::TempDir;
 using copyfs::CopyDevice;
@@ -14,7 +15,7 @@ int main (int argc, char *argv[])
   CopyDevice device(dir.path().c_str());
   FilesystemImpl fsimpl(&device);
   Fuse fuse(&fsimpl);
-  printf("CopyFS initialized\nBase directory: %s\n", dir.path().c_str());
+  std::cout << "CopyFS initialized\nBase directory: " << dir.path().c_str() << std::endl;
   fuse.run(argc, argv);
   return 0;
 }
