@@ -12,6 +12,8 @@ using namespace copyfs;
 
 class CopyFsTestFixture: public FileSystemTestFixture {
 public:
+  CopyFsTestFixture(): rootDir() {}
+
   unique_ref<Device> createDevice() override {
     return make_unique_ref<CopyDevice>(rootDir.path());
   }
