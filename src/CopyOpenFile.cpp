@@ -37,12 +37,8 @@ void CopyOpenFile::truncate(off_t size) const {
 }
 
 ssize_t CopyOpenFile::read(void *buf, size_t count, off_t offset) const {
-  //printf("Reading from real descriptor %d (%d, %d)\n", _descriptor, offset, count);
-  //fflush(stdout);
   int retval = ::pread(_descriptor, buf, count, offset);
   CHECK_RETVAL(retval);
-  //printf("retval: %d, count: %d\n", retval, count);
-  //fflush(stdout);
   ASSERT(static_cast<unsigned int>(retval) <= count, "Read wrong number of bytes");
   return retval;
 }
