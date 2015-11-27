@@ -8,10 +8,10 @@
 
 namespace copyfs {
 
-class CopyDir: public fspp::Dir, CopyNode {
+class CopyDir final: public fspp::Dir, CopyNode {
 public:
   CopyDir(CopyDevice *device, const bf::path &path);
-  virtual ~CopyDir();
+  ~CopyDir();
 
   //TODO return type variance to CopyFile/CopyDir?
   cpputils::unique_ref<fspp::OpenFile> createAndOpenFile(const std::string &name, mode_t mode, uid_t uid, gid_t gid) override;

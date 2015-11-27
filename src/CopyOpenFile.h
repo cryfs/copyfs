@@ -8,10 +8,10 @@
 namespace copyfs {
 class CopyDevice;
 
-class CopyOpenFile: public fspp::OpenFile {
+class CopyOpenFile final: public fspp::OpenFile {
 public:
   CopyOpenFile(const CopyDevice *device, const boost::filesystem::path &path, int flags);
-  virtual ~CopyOpenFile();
+  ~CopyOpenFile();
 
   void stat(struct ::stat *result) const override;
   void truncate(off_t size) const override;

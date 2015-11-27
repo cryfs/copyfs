@@ -7,10 +7,10 @@
 
 namespace copyfs {
 
-class CopyFile: public fspp::File, CopyNode {
+class CopyFile final: public fspp::File, CopyNode {
 public:
   CopyFile(CopyDevice *device, const boost::filesystem::path &path);
-  virtual ~CopyFile();
+  ~CopyFile();
 
   cpputils::unique_ref<fspp::OpenFile> open(int flags) const override;
   void truncate(off_t size) const override;
