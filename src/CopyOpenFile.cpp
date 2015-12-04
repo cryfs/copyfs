@@ -55,7 +55,12 @@ void CopyOpenFile::fsync() {
 }
 
 void CopyOpenFile::fdatasync() {
+#ifdef F_FULLFSYNC
+  // This is MacOSX, which doesn't know fdatasync
+  int retval = fcntl(_descriptor, F_FULLFSYNC);
+#else
   int retval = ::fdatasync(_descriptor);
+#endif
   CHECK_RETVAL(retval);
 }
 
