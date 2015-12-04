@@ -79,11 +79,11 @@ unique_ref<vector<CopyDir::Entry>> CopyDir::children() const {
       result->push_back(Entry(EntryType::SYMLINK, entry->d_name));
     }  // else: Ignore files we can't handle (e.g. block device, pipe, ...)
 #else
-    if(bf::is_symlink(entry->d_name)) { //We have to check for symlink first, because bf::is_directory/bf::is_regular_file return true if the symlink is pointing to a respective entry
+    if(bf::is_symlink(base_path() / entry->d_name)) { //We have to check for symlink first, because bf::is_directory/bf::is_regular_file return true if the symlink is pointing to a respective entry
      result->push_back(Entry(EntryType::SYMLINK, entry->d_name));
-    } else if(bf::is_regular_file(entry->d_name)) {
+    } else if(bf::is_regular_file(base_path() / entry->d_name)) {
       result->push_back(Entry(EntryType::FILE, entry->d_name));
-    } else if(bf::is_directory(entry->d_name)) {
+    } else if(bf::is_directory(base_path() / entry->d_name)) {
       result->push_back(Entry(EntryType::DIR, entry->d_name));
     } // else: Ignore files we can't handle (e.g. block device, pipe, ...)
 #endif
