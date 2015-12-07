@@ -36,7 +36,7 @@ void CopyOpenFile::truncate(off_t size) const {
   CHECK_RETVAL(retval);
 }
 
-ssize_t CopyOpenFile::read(void *buf, size_t count, off_t offset) const {
+size_t CopyOpenFile::read(void *buf, size_t count, off_t offset) const {
   int retval = ::pread(_descriptor, buf, count, offset);
   CHECK_RETVAL(retval);
   ASSERT(static_cast<unsigned int>(retval) <= count, "Read wrong number of bytes");
