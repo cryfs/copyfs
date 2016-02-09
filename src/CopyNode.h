@@ -19,7 +19,7 @@ public:
   void chown(uid_t uid, gid_t gid) override;
   void access(int mask) const override;
   void rename(const boost::filesystem::path &to) override;
-  void utimens(const timespec times[2]) override;
+  void utimens(timespec lastAccessTime, timespec lastModificationTime) override;
 
 protected:
   boost::filesystem::path base_path() const;

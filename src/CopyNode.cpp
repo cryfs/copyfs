@@ -45,10 +45,10 @@ void CopyNode::rename(const bf::path &to) {
   _path = to;
 }
 
-void CopyNode::utimens(const timespec times[2]) {
+void CopyNode::utimens(timespec lastAccessTime, timespec lastModificationTime) {
   struct timeval timevals[2];
-  TIMESPEC_TO_TIMEVAL(&timevals[0], &times[0]);
-  TIMESPEC_TO_TIMEVAL(&timevals[1], &times[1]);
+  TIMESPEC_TO_TIMEVAL(&timevals[0], &lastAccessTime);
+  TIMESPEC_TO_TIMEVAL(&timevals[1], &lastModificationTime);
   ::lutimes(base_path().c_str(), timevals);
 }
 
